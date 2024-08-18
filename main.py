@@ -12,16 +12,17 @@ def Main():
     fileinput = tk.Entry(root, width=100)
     fileinput.grid(row=1)
 
-    output = tk.scrolledtext.ScrolledText(root, wrap=tk.WORD, width=100, height=50)
+    output = tk.Label(root, text="")
     output.grid(row=3)
 
     def convert():
         path = fileinput.get()
         if path:
             path = path.replace('\\', '/')
-            output.insert(tk.END, image_to_uri(path))
+            pc.copy(image_to_uri(path))
+            output.configure(text="Copied to clipboard!")
         else:
-            output.insert(tk.END, "No input!")
+            output.configure(text="No input!")
 
     convertbutton = tk.Button(root, text="Convert", command=convert)
     convertbutton.grid(row=2)
