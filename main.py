@@ -26,19 +26,29 @@ def Main():
     fileexplorer.grid(row=1, column=1)
 
     output = tk.Label(root, text="")
-    output.grid(row=3)
+    output.grid(row=4)
+
+    # Tkinter checkbuttons seem rather convoluted... is this really the simplest way?
+    extvar = tk.IntVar(value=1)
+    extcheck = tk.Checkbutton(root, text="Add prefix", variable=extvar, onvalue=1, offvalue=0)
+    extcheck.grid(row=2)
 
     def convert():
         filepath = fileinput.get()
         if filepath:
             filepath = filepath.replace('\\', '/')
-            pc.copy(image_to_uri(filepath))
+            result = image_to_uri(filepath)
+            if extvar.get() == 1:
+                ext = filepath.split('.')[-1]
+                result = "data:image/" + ext + ";base64," + result
+            pc.copy(result)
             output.configure(text="Copied to clipboard!")
         else:
             output.configure(text="No input!")
 
+
     convertbutton = tk.Button(root, text="Convert", command=convert)
-    convertbutton.grid(row=2)
+    convertbutton.grid(row=3)
 
 
 
