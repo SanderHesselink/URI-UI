@@ -1,7 +1,12 @@
-from img_to_uri import image_to_uri
+import base64
 import pyperclip as pc
 import tkinter as tk
 from tkinter import filedialog
+
+def image_to_uri(path):
+    with open(path, 'rb') as f:
+        img = f.read()
+    return base64.b64encode(img).decode("utf-8")
 
 def Main():
     root = tk.Tk()
