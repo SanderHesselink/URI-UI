@@ -11,7 +11,7 @@ def image_to_uri(path):
 def Main():
     root = tk.Tk()
     root.title("Image to URI converter")
-    root.geometry('600x600')
+    root.geometry('600x200')
 
     tk.Label(root, text="Enter filepath:").grid(row=0)
     fileinput = tk.Entry(root, width=50)
@@ -19,8 +19,9 @@ def Main():
 
     def dialogpopup():
         filepath = tk.filedialog.askopenfilename()
-        fileinput.delete(0, tk.END)
-        fileinput.insert(tk.END, filepath)
+        if filepath:
+            fileinput.delete(0, tk.END)
+            fileinput.insert(tk.END, filepath)
 
     fileexplorer = tk.Button(root, text="select file...", command=dialogpopup)
     fileexplorer.grid(row=1, column=1)
@@ -37,20 +38,22 @@ def Main():
         filepath = fileinput.get()
         if filepath:
             filepath = filepath.replace('\\', '/')
-            result = image_to_uri(filepath)
-            if extvar.get() == 1:
-                ext = filepath.split('.')[-1]
-                result = "data:image/" + ext + ";base64," + result
-            pc.copy(result)
-            output.configure(text="Copied to clipboard!")
+            # Very elegant exception handling: just throw it all into one big try/except. But hey, it works
+            try:
+                result = image_to_uri(filepath)
+                if extvar.get() == 1:
+                    ext = filepath.split('.')[-1]
+                    result = "data:image/" + ext + ";base64," + result
+                pc.copy(result)
+                output.configure(text="Copied to clipboard!")
+            except:
+                output.configure(text="Bad input!")
         else:
             output.configure(text="No input!")
 
 
     convertbutton = tk.Button(root, text="Convert", command=convert)
     convertbutton.grid(row=3)
-
-
 
 
     root.mainloop()
