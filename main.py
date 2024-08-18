@@ -13,9 +13,9 @@ def Main():
     root.title("Image to URI converter")
     root.geometry('600x200')
 
-    tk.Label(root, text="Enter filepath:").grid(row=0)
+    tk.Label(root, text="Enter filepath:").grid(row=0, padx=(130,0))
     fileinput = tk.Entry(root, width=50)
-    fileinput.grid(row=1)
+    fileinput.grid(row=1, padx=(130,0))
 
     def dialogpopup():
         filepath = tk.filedialog.askopenfilename()
@@ -27,18 +27,18 @@ def Main():
     fileexplorer.grid(row=1, column=1)
 
     output = tk.Label(root, text="")
-    output.grid(row=4)
+    output.grid(row=4, padx=(130,0))
 
     # Tkinter checkbuttons seem rather convoluted... is this really the simplest way?
     extvar = tk.IntVar(value=1)
     extcheck = tk.Checkbutton(root, text="Add prefix", variable=extvar, onvalue=1, offvalue=0)
-    extcheck.grid(row=2)
+    extcheck.grid(row=2, padx=(130,0))
 
     def convert():
         filepath = fileinput.get()
         if filepath:
             filepath = filepath.replace('\\', '/')
-            # Very elegant exception handling: just throw it all into one big try/except. But hey, it works
+            # Very elegant exception handling: just throw it all into one big try/except. But hey, it works.
             try:
                 result = image_to_uri(filepath)
                 if extvar.get() == 1:
@@ -53,7 +53,7 @@ def Main():
 
 
     convertbutton = tk.Button(root, text="Convert", command=convert)
-    convertbutton.grid(row=3)
+    convertbutton.grid(row=3, padx=(130,0))
 
 
     root.mainloop()
